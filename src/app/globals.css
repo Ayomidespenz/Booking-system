@@ -1,0 +1,396 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ------------------------------------------------------------------ */
+/*  Velora design tokens — warm luxury editorial                       */
+/* ------------------------------------------------------------------ */
+
+@theme {
+  /* Sand — warm ivory neutrals */
+  --color-sand-50: #fdfbf7;
+  --color-sand-100: #f8f4ed;
+  --color-sand-200: #f0e9de;
+  --color-sand-300: #e4dacb;
+  --color-sand-400: #d3c5af;
+  --color-sand-500: #baa98f;
+
+  /* Ink — warm espresso blacks */
+  --color-ink-950: #131009;
+  --color-ink-900: #1b1710;
+  --color-ink-800: #272118;
+  --color-ink-700: #3a3226;
+  --color-ink-600: #514738;
+  --color-ink-500: #6e6353;
+  --color-ink-400: #918675;
+  --color-ink-300: #b2a795;
+
+  /* Gold — bronze accents */
+  --color-gold-50: #faf4e9;
+  --color-gold-100: #f4e8d2;
+  --color-gold-200: #e9d2a8;
+  --color-gold-300: #dcb97d;
+  --color-gold-400: #cda05c;
+  --color-gold-500: #b5894e;
+  --color-gold-600: #9a7340;
+  --color-gold-700: #7c5c33;
+
+  /* Semantic */
+  --color-sage-500: #4d7c63;
+  --color-sage-100: #e6efe9;
+  --color-claret-500: #a4402f;
+  --color-claret-100: #f7e7e3;
+
+  /* Typography */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-display: var(--font-playfair), "Iowan Old Style", Georgia, serif;
+
+  /* Elevation */
+  --shadow-soft: 0 1px 2px rgb(19 16 9 / 0.04), 0 10px 30px -14px rgb(19 16 9 / 0.14);
+  --shadow-lift: 0 2px 4px rgb(19 16 9 / 0.05), 0 28px 56px -20px rgb(19 16 9 / 0.28);
+  --shadow-gold: 0 10px 30px -12px rgb(181 137 78 / 0.55);
+
+  /* Radii */
+  --radius-card: 1.25rem;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+
+:root {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--color-sand-50);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  background-color: var(--color-ink-950);
+  color: var(--color-sand-200);
+}
+
+::selection {
+  background-color: var(--color-gold-300);
+  color: var(--color-ink-950);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold-500);
+  outline-offset: 3px;
+}
+
+/* Slim, on-brand scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--color-ink-400) 45%, transparent);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--color-gold-500) 70%, transparent);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Layout helpers                                                     */
+/* ------------------------------------------------------------------ */
+
+.container-x {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 90rem;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .container-x {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-x {
+    padding-inline: 3.5rem;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Editorial textures & effects                                       */
+/* ------------------------------------------------------------------ */
+
+/* Film-grain veil for an editorial print feel */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.dark .grain {
+  mix-blend-mode: soft-light;
+  opacity: 0.35;
+}
+
+.text-gradient-gold {
+  background-image: linear-gradient(
+    115deg,
+    var(--color-gold-300),
+    var(--color-gold-500) 45%,
+    var(--color-gold-700)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Soft horizontal fades for marquee rails */
+.edge-fade-x {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+
+/* Underline that draws itself on hover */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.5s var(--ease-out-expo);
+}
+.link-underline:hover,
+.link-underline[data-active="true"] {
+  background-size: 100% 1px;
+}
+
+/* Hairline separators that read well on ivory */
+.rule {
+  border-color: color-mix(in srgb, var(--color-ink-900) 10%, transparent);
+}
+.dark .rule {
+  border-color: color-mix(in srgb, var(--color-sand-100) 12%, transparent);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Keyframes                                                           */
+/* ------------------------------------------------------------------ */
+
+@keyframes velora-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes velora-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes velora-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes velora-pulse-ring {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.8;
+  }
+  80%,
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
+@keyframes velora-shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes velora-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-marquee {
+  animation: velora-marquee var(--marquee-duration, 42s) linear infinite;
+}
+.animate-float {
+  animation: velora-float 7s ease-in-out infinite;
+}
+.animate-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    transparent 30%,
+    color-mix(in srgb, var(--color-sand-100) 90%, white) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: velora-shimmer 1.9s ease-in-out infinite;
+}
+.dark .animate-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    transparent 30%,
+    color-mix(in srgb, var(--color-ink-800) 90%, white) 50%,
+    transparent 70%
+  );
+}
+.animate-pulse-ring {
+  animation: velora-pulse-ring 2.6s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+}
+.animate-shake {
+  animation: velora-shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+.animate-draw {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: velora-draw 1.1s 0.35s var(--ease-out-expo) forwards;
+}
+
+/* Pause marquees when hovered (for interactive rails) */
+.marquee-pausable:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Range input (price filter)                                         */
+/* ------------------------------------------------------------------ */
+
+input[type="range"].velora-range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  height: 24px;
+}
+input[type="range"].velora-range::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-ink-900) 15%, transparent);
+}
+input[type="range"].velora-range::-moz-range-track {
+  height: 3px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-ink-900) 15%, transparent);
+}
+input[type="range"].velora-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 18px;
+  width: 18px;
+  margin-top: -7.5px;
+  border-radius: 999px;
+  background: var(--color-ink-900);
+  border: 3px solid var(--color-gold-300);
+  box-shadow: 0 4px 10px -4px rgb(19 16 9 / 0.5);
+  cursor: grab;
+  transition: transform 0.25s var(--ease-out-expo);
+}
+input[type="range"].velora-range::-webkit-slider-thumb:active {
+  transform: scale(1.2);
+  cursor: grabbing;
+}
+input[type="range"].velora-range::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
+  border-radius: 999px;
+  background: var(--color-ink-900);
+  border: 3px solid var(--color-gold-300);
+  cursor: grab;
+}
+.dark input[type="range"].velora-range::-webkit-slider-thumb {
+  background: var(--color-sand-100);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Reduced motion                                                      */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
